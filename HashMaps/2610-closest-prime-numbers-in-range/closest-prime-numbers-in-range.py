@@ -1,35 +1,35 @@
 class Solution:
-    def _findPrimes(self, max_limit):
-        # Create a boolean array to mark numbers as prime (True) or not (False)
-        is_prime = [True] * (max_limit + 1)
-        is_prime[0], is_prime[1] = False, False  # 0 and 1 are not prime
+    def _sieveOfEratosthenes(self, n):
+        # Create a boolean array to mark numbers as prime (True) or not prime (False)
+        primes = [True] * (n + 1)
+        primes[0], primes[1] = False, False  # 0 and 1 are not prime numbers
 
-        # Use the Sieve of Eratosthenes to mark non-prime numbers
-        for candidate in range(2, int(max_limit**0.5) + 1):
-            if is_prime[candidate]:
-                for multiple in range(candidate * candidate, max_limit + 1, candidate):
-                    is_prime[multiple] = False
+        # Mark multiples of each number starting from 2 as not prime
+        for i in range(2, int(n**0.5) + 1):
+            if primes[i]:
+                for j in range(i * i, n + 1, i):
+                    primes[j] = False
 
-        return is_prime
+        return primes
 
-    def closestPrimes(self, start, end):
-        # Step 1: Generate all primes up to 'end' using the sieve
-        prime_flags = self._findPrimes(end)
+    def closestPrimes(self, left, right):
+        # Step 1: Generate all primes up to 'right' using the sieve
+        is_prime = self._sieveOfEratosthenes(right)
 
-        # Extract the primes within the range [start, end]
-        primes_in_range = [num for num in range(start, end + 1) if prime_flags[num]]
+        # Extract the prime numbers within the range [left, right]
+        primes_in_range = [x for x in range(left, right + 1) if is_prime[x]]
 
         # Step 2: Find the closest pair of primes
         if len(primes_in_range) < 2:
             return -1, -1  # Not enough primes to form a pair
 
         closest_pair = (-1, -1)
-        smallest_gap = float("inf")
+        min_diff = float("inf")
 
-        for i in range(1, len(primes_in_range)):
-            gap = primes_in_range[i] - primes_in_range[i - 1]
-            if gap < smallest_gap:
-                smallest_gap = gap
-                closest_pair = (primes_in_range[i - 1], primes_in_range[i])
+        for k in range(1, len(primes_in_range)):
+            diff = primes_in_range[k] - primes_in_range[k - 1]
+            if diff < min_diff:
+                min_diff = diff
+                closest_pair = (primes_in_range[k - 1], primes_in_range[k])
 
         return closest_pair
