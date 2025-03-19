@@ -1,3 +1,4 @@
+// Last updated: 19/03/2025, 18:36:45
 # The guess API is already defined for you.
 # @param num, your guess
 # @return -1 if num is higher than the picked number
