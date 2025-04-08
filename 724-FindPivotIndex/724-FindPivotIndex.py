@@ -1,4 +1,4 @@
-# Last updated: 08/04/2025, 16:44:42
+# Last updated: 08/04/2025, 16:45:32
 class Solution:
     def pivotIndex(self, nums: List[int]) -> int:
         S = sum(nums)
